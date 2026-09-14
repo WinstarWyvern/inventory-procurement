@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: inventory-procurement-api
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/inventory_procurement}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:1234}
+
+  jpa:
+    hibernate:
+      # Flyway owns the schema - Hibernate must never auto-generate/alter it.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-change-me-dev-secret-change-me}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:480}
+  seed:
+    enabled: ${SEED_ENABLED:false}
+
+logging:
+  level:
+    org.hibernate.SQL: ${SQL_LOG_LEVEL:WARN}
